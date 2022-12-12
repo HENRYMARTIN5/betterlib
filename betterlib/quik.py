@@ -1,10 +1,12 @@
 """
 The QuikServer class is a simple HTTP server that can be used to serve files and dynamically generated content.
 """
-import http.server
-import socketserver
+from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler
+
+QUIKVERSION = "0.1a"
 
 handlers = {}
+allowed_methods = {}
 
 class QuikServer():
 	"""
@@ -22,7 +24,7 @@ class QuikServer():
 		self.port = port
 		self.host = host
 	
-	def add_handler(self, path, handler):
+	def add_handler(self, path, handler, methods=["GET"]):
 		"""
 		Adds a handler to the server. Parameters:
 		
@@ -31,40 +33,238 @@ class QuikServer():
 		"""
 
 		handlers[path] = handler
+		allowed_methods[path] = methods
 
 	def start(self):
-		with socketserver.TCPServer((self.host, self.port), QuikHandler) as httpd:
-			print("QuikServer up and running on http://" + self.host + ":" + str(self.port) + "/")
-			httpd.serve_forever()
+		with HTTPServer((self.host, self.port), QuikHandler) as httpd:
+
+			print("Quik is up and running on http://%s:%s" % (self.host, self.port))
+			try:
+				httpd.serve_forever()
+			except KeyboardInterrupt:
+				pass
 
 
-class QuikHandler(http.server.SimpleHTTPRequestHandler):
+class QuikHandler(BaseHTTPRequestHandler):
 	"""
 	A handler for the socketserver.TCPServer class.
 	"""
+
 	def do_GET(self):
 		"""
 		Handles GET requests.
 		"""
-		global handlers
+
 		if self.path in handlers:
+			if "GET" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
 			response = handlers[self.path]()
 			self.send_response(response.code)
 			self.send_header("Content-type", response.content_type)
-			self.send_header("Content-length", len(response.content))
-			for header in response.headers:
-				self.send_header(header, response.headers[header])
 			self.end_headers()
 			self.wfile.write(bytes(response.content, response.encoding))
 		else:
-			return http.server.SimpleHTTPRequestHandler.do_GET(self)
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+
+	def do_POST(self):
+		"""
+		Handles POST requests.
+		"""
+
+		if self.path in handlers:
+			if "POST" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+			self.wfile.write(bytes(response.content, response.encoding))
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	def do_HEAD(self):
+		"""
+		Handles HEAD requests.
+		"""
+
+		if self.path in handlers:
+			if "HEAD" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	def do_PUT(self):
+		"""
+		Handles PUT requests.
+		"""
+
+		if self.path in handlers:
+			if "PUT" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+			self.wfile.write(bytes(response.content, response.encoding))
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	def do_DELETE(self):
+		"""
+		Handles DELETE requests.
+		"""
+
+		if self.path in handlers:
+			if "DELETE" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+			self.wfile.write(bytes(response.content, response.encoding))
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	def do_CONNECT(self):
+		"""
+		Handles CONNECT requests.
+		"""
+
+		if self.path in handlers:
+			if "CONNECT" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+			self.wfile.write(bytes(response.content, response.encoding))
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	def do_OPTIONS(self):
+		"""
+		Handles OPTIONS requests.
+		"""
+
+		if self.path in handlers:
+			if "OPTIONS" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+			self.wfile.write(bytes(response.content, response.encoding))
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	def do_TRACE(self):
+		"""
+		Handles TRACE requests.
+		"""
+
+		if self.path in handlers:
+			if "TRACE" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+			self.wfile.write(bytes(response.content, response.encoding))
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	def do_PATCH(self):
+		"""
+		Handles PATCH requests.
+		"""
+
+		if self.path in handlers:
+			if "PATCH" not in allowed_methods[self.path]:
+				self.send_response(405)
+				self.send_header("Content-type", "text/html")
+				self.end_headers()
+				self.wfile.write(bytes("405 Method Not Allowed<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+				return
+			response = handlers[self.path]()
+			self.send_response(response.code)
+			self.send_header("Content-type", response.content_type)
+			self.end_headers()
+			self.wfile.write(bytes(response.content, response.encoding))
+		else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
+	
+	
 
 class QuikResponse():
 	"""
 	A response object that can be returned by a handler.
 	"""
 
-	def __init__(self, code, content, headers={}, content_type="text/html", encoding="utf-8", version="HTTP/1.1", status="OK"):
+
+	def __init__(self, content, code, content_type="text/html", encoding="utf-8"):
 		"""
 		Initializes a new QuikResponse object. Parameters:
 		
@@ -74,8 +274,5 @@ class QuikResponse():
 
 		self.code = code
 		self.content = content
-		self.headers = headers
 		self.content_type = content_type
 		self.encoding = encoding
-		self.version = version
-		self.status = status
