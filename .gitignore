@@ -11,3 +11,7 @@ build/
 
 # Ignore testing files
 *test*
+
+# Ignore pycache
+__pycache__
+*__pycache__*
