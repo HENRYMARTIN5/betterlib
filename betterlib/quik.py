@@ -50,6 +50,7 @@ class QuikHandler(BaseHTTPRequestHandler):
 	A handler for the socketserver.TCPServer class.
 	"""
 
+	# The following functions are super redundant, but I'm not sure how to make them more efficient.
 	def do_GET(self):
 		"""
 		Handles GET requests.
@@ -256,7 +257,7 @@ class QuikHandler(BaseHTTPRequestHandler):
 			self.end_headers()
 			self.wfile.write(bytes("404 Not Found<br>Betterlib Quik " + QUIKVERSION, "utf-8"))
 	
-	
+
 
 class QuikResponse():
 	"""
