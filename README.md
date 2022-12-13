@@ -7,7 +7,7 @@ BetterLib is a useful collection of utilities for Python developers to use in th
 BetterLib is available on PyPI, so you can install it with pip:
 
 ```sh
-# TODO: publish package to pypi
+pip install betterlib
 ```
 
 ## Usage
