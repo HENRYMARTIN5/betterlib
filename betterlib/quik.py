@@ -2,8 +2,11 @@
 The QuikServer class is a simple HTTP server that can be used to serve files and dynamically generated content.
 """
 from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler
+from . import config
 
-QUIKVERSION = "0.1a"
+conf = config.ConfigFile("config.json")
+
+QUIKVERSION = conf.get("version")
 
 handlers = {}
 allowed_methods = {}
