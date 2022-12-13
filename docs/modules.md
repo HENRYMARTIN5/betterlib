@@ -41,3 +41,12 @@ Contained in this module are the following classes:
 - `QuikServer` - The simple HTTP server.
 - `QuikHandler` - The internal request handler for Python's built in `http.server`.
 - `QuikResponse` - A class that represents an response to a request.
+
+## [`betterlib.threader`](https://henrymartin5.github.io/betterlib/threader)
+
+This module contains the Threader class, which is a simple and easy to use thread manager that can also be used to get the output of a function in a thread.
+
+Contained in this module are the following classes:
+
+- `Threader` - The thread manager.
+- `BetterThread` - The internal thread class.
