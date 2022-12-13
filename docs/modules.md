@@ -1,0 +1,43 @@
+# Betterlib Modules
+
+## `betterlib.logging`
+
+This module contains a collection of utilities for logging. It is a powerful system that fully implements the standards set forth by the Python logging library, but with a few extra features, such as the ability to log to a file and to the console with color output via `colorama`. This module is the most versitile of all of them, and is generally recommended for all projects.
+
+Contained in this module are the following classes:
+
+- `Logger` - A class that sort of implements the Python logging library's `Logger` class, but with a few extra features.
+
+## `betterlib.config`
+
+This module contains a high-level abstraction that allows you to easily manage json configuration files.
+
+Contained in this module are the following classes:
+
+- `ConfigFile` - A class that represents a json configuration file.
+
+## `betterlib.ip`
+
+This module contains various utilities for working with IP and MAC addresses.
+
+Contained in this module are the following functions:
+
+- `getIp()`
+- `getPubIp()`
+- `getHostname()`
+- `getMac()`
+- `getMacVendor(address)`
+- `getLatLong(ip=None)`
+- `isBehindProxy()`
+- `isVpn(ip)`
+- `isTor(ip)`
+
+## `betterlib.quik`
+
+This module contains the QuikServer class, which is a simple and easy to set up HTTP server that can be used to serve files or dynamically generated content.
+
+Contained in this module are the following classes:
+
+- `QuikServer` - The simple HTTP server.
+- `QuikHandler` - The internal request handler for Python's built in `http.server`.
+- `QuikResponse` - A class that represents an response to a request.
