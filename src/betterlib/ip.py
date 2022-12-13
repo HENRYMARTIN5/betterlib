@@ -61,18 +61,6 @@ def getMacVendor(mac):
 	except:
 		return None
 
-def approximateLocation(ip):
-	"""
-	Returns the approximate location of the given IP address.
-	"""
-
-	try:
-		url = "http://ip-api.com/json/%s" % ip
-		response = requests.get(url)
-		return response.json()
-	except:
-		return None
-
 def isBehindProxy():
 	"""
 	Returns whether or not the current system is behind a proxy.
