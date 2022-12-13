@@ -23,18 +23,4 @@ from betterlib import logging, config, ip...
 
 ## Modules
 
-### `betterlib.logging`
-
-This module contains a collection of utilities for logging. It is a powerful system that fully implements the standards set forth by the Python logging library, but with a few extra features, such as the ability to log to a file and to the console with color output via `colorama`. This module is the most versitile of all of them, and is generally recommended for all projects.
-
-### `betterlib.config`
-
-This module contains a high-level abstraction that allows you to easily manage json configuration files.
-
-### `betterlib.ip`
-
-This module contains various utilities for working with IP and MAC addresses.
-
-### `betterlib.quik`
-
-This module contains the QuikServer class, which is a simple and easy to set up HTTP server that can be used to serve files or dynamically generated content.
+See the [documentation](https://henrymartin5.github.io/betterlib).
