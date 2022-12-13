@@ -60,7 +60,6 @@ Ensures that a list of keys exist in the config file. If they don't, they will b
 - `keys` - A list of keys to ensure.
 - `reload` - Whether or not to reload the config file before performing the action. Defaults to `False`.
 
-
 ### `delete(key, reload=False)`
 
 Deletes a key and its respective value from the config file.
