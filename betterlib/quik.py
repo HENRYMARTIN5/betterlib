@@ -123,7 +123,7 @@ class QuikHandler(BaseHTTPRequestHandler):
 		"""
 		Handles PUT requests.
 		"""
-
+		
 		if self.path in handlers:
 			if "PUT" not in allowed_methods[self.path]:
 				self.send_response(405)

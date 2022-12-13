@@ -74,6 +74,21 @@ class ConfigFile():
 			self.file.close()
 			return True
 
+	def ensureList(self, keys, reload=False):
+		"""
+		Ensures that a list of keys exist in the configuration file. Returns a list of keys that were created. Parameters:
+
+		keys: The keys to ensure.
+		reload: Whether or not to reload the configuration file before checking for the keys. Defaults to False.
+		"""
+
+		created = []
+		for key in keys:
+			result = self.ensure(key, reload=reload)
+			if result:
+				created.append(key)
+		return created
+
 	def delete(self, key, reload=False):
 		"""
 		Deletes a key from the configuration file. Returns True if the key was deleted, False if it didn't exist. Parameters:

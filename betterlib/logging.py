@@ -42,7 +42,8 @@ class Logger():
 
 		# Check if the directory exists
 		if not os.path.exists(os.path.dirname(self.config.get("file"))):
-			os.makedirs(os.path.dirname(self.config.get("file")))    
+			print("Creating directory " + self.config.get("file") + "...")
+			os.makedirs(os.path.dirname(self.config.get("file")))
 
 		# Open the file, overwrite any contents, then close it and reopen it in append mode
 		self.log_file = self.config.get("file")
