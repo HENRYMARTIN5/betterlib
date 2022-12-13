@@ -2,7 +2,7 @@
 A simple but powerful logging class that outputs to the console (with color!) and to a file in realtime.
 """
 import datetime, os
-from colorama import Fore, Back, Style, init
+from colorama import Fore, Style, init
 
 
 class Logger():

@@ -1,10 +1,7 @@
 """
 A collection of utilities for getting information about the current system's private and public IP address, hostname, MAC address, approximate location, and more.
 """
-import socket
-import re
-import uuid
-import requests
+import socket, re, uuid, requests
 
 def getIp():
 	"""
