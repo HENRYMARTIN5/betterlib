@@ -1,4 +1,2 @@
-# Jekyll config file
-
-theme: midnight
-title: Betterlib Docs
+# Midnight theme for Github Pages
+theme: jekyll-theme-midnight
