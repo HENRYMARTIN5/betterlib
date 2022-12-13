@@ -4,9 +4,8 @@ The QuikServer class is a simple HTTP server that can be used to serve files and
 from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler
 from . import config
 
-conf = config.ConfigFile("config.json")
 
-QUIKVERSION = conf.get("version")
+QUIKVERSION = "0.2a"
 
 handlers = {}
 allowed_methods = {}

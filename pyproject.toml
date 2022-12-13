@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "betterlib"
+version = "0.1.0"
+authors = [
+  { name="Henry Martin", email="n3rdl0rd@proton.me" },
+]
+description = "A useful collection of various tools and libraries for anyone to use in their projects."
+readme = "README.md"
+requires-python = ">=3.5"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: The Unlicense (Unlicense)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests==2.28.1"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/HENRYMARTIN5/betterlib"
+"Bug Tracker" = "https://github.com/HENRYMARTIN5/betterlib/issues"
