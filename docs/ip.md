@@ -1,4 +1,4 @@
-# Betterlib IP
+# IP
 
 This module contains various utilities for working with IP and MAC addresses.
 

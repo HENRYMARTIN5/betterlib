@@ -1,10 +1,10 @@
-# Betterlib Threader
+# Threader
 
 This module contains the Threader class, which is a simple and easy to use thread manager that can also be used to get the output of a function in a thread.
 
 This module consists of the following classes:
 
-## Threader
+## `Threader`
 
 The thread manager.
 

@@ -1,4 +1,4 @@
-# Betterlib Logging
+# Logging
 
 This module contains the `Logger` class, which is a simple and easy to use logging class that can be used to log messages to a file and to the terminal with color via `colorama`.
 

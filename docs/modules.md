@@ -1,4 +1,4 @@
-# Betterlib Modules
+# Modules
 
 ## [`betterlib.logging`](https://henrymartin5.github.io/betterlib/logging)
 

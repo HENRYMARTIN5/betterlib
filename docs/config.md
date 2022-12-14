@@ -1,4 +1,4 @@
-# Betterlib Config
+# Config
 
 This module contains the `ConfigFile` class, which is a simple and easy to use abstraction for json configuration files.
 

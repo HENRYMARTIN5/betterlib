@@ -1,4 +1,4 @@
-# Betterlib Quik
+# Quik
 
 This module contains the QuikServer class, which is a simple and easy to set up HTTP server that can be used to serve files or dynamically generated content.
 
