@@ -40,4 +40,4 @@ BetterLib is licensed under the Unlicense. This means that you can use it in any
 
 ## Credits
 
-BetterLib was created and maintained by [Henry Martin](https://henrymartin.co/).
+BetterLib was created and maintained by [Henry Martin](http://henrymartin.co/).
