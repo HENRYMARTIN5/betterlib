@@ -24,3 +24,7 @@ from betterlib import logging, config, ip...
 ## Modules
 
 See [docs/modules.md](https://henrymartin5.github.io/betterlib/modules) for more information.
+
+## Contributing
+
+See [contributing](https://henrymartin5.github.io/betterlib/contributing)
