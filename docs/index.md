@@ -27,4 +27,4 @@ See [docs/modules.md](https://henrymartin5.github.io/betterlib/modules) for more
 
 ## Contributing
 
-See [contributing](https://henrymartin5.github.io/betterlib/contributing)
+See [contributing](https://henrymartin5.github.io/betterlib/contribute)

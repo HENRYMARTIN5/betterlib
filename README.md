@@ -27,4 +27,4 @@ See the [documentation](https://henrymartin5.github.io/betterlib).
 
 ## Contributing
 
-See [contributing](https://henrymartin5.github.io/betterlib/contributing)
+See [contributing](https://henrymartin5.github.io/betterlib/contribute)
