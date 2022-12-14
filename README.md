@@ -10,6 +10,8 @@ BetterLib is available on PyPI, so you can install it with pip:
 pip install betterlib
 ```
 
+Keep in mind that since BetterLib is still in development, new versions come out often and may break your pre-existing code.
+
 ## Usage
 
 BetterLib is split into several modules, each of which contains a collection of related utilities. You can import the entire library, or just the modules you need.
