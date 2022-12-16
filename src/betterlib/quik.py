@@ -153,3 +153,13 @@ class QuikResponse():
 		self.content = content
 		self.content_type = content_type
 		self.encoding = encoding
+
+if __name__ == "__main__":
+	# This is just a test server.
+	server = QuikServer(8080)
+
+	def handler():
+		return QuikResponse("Hello, world!", 200)
+	server.add_handler("/", handler)
+
+	server.start()
