@@ -127,7 +127,8 @@ class QuikHandler(BaseHTTPRequestHandler):
 				else:
 					response = error_handlers[404]()
 					self.send_from_quikresponse(response)
-		except:
+		except Exception as e:
+			print(e)
 			if not 500 in error_handlers:
 				self.send_from_string("500 internal server error. Nice job, you broke something!<br>Betterlib Quik " + QUIKVERSION, code=405)
 			else:
@@ -219,6 +220,7 @@ class QuikResponse():
 		self.encoding = encoding
 		self.headers = headers
 		self.cookies = cookies
+		self.delete_cookies = delete_cookies
 
 if __name__ == "__main__":
 	# This is just a test server.
