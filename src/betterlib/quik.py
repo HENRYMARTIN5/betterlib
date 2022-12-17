@@ -2,6 +2,8 @@
 The QuikServer class is a simple HTTP server that can be used to serve files and dynamically generated content.
 """
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import json
+from urllib.parse import parse_qs
 
 QUIKVERSION = "0.2a"
 
@@ -99,7 +101,7 @@ class QuikHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		self.wfile.write(bytes(string, encoding))
 
-	def handle_quik_request(self, path, method):
+	def handle_quik_request(self, path, method, body=None):
 		global error_handlers
 
 		"""
@@ -118,7 +120,10 @@ class QuikHandler(BaseHTTPRequestHandler):
 						response = error_handlers[405]()
 						self.send_from_quikresponse(response)
 
-				response = handlers[path]() # The tiny little bit of logic that actually sends a valid request.
+				if body is None:
+					response = handlers[path]() # The tiny little bit of logic that actually sends a valid request.
+				else:
+					response = handlers[path](body)
 				self.send_from_quikresponse(response)
 
 			else:
@@ -148,7 +153,23 @@ class QuikHandler(BaseHTTPRequestHandler):
 		Handles POST requests.
 		"""
 
-		self.handle_quik_request(self.path, "POST")
+		# Currently, the only supported request type for a request body is POST. More to come soon.
+
+		# Get request body and decode it.
+		content_length = int(self.headers['Content-Length'])
+		unparsed_body = self.rfile.read(content_length).decode("utf-8") # TODO: Make this encoding configurable.
+		# Get the content type and parse it if neccecary.
+		content_type = self.headers['Content-Type']
+		if content_type == "application/x-www-form-urlencoded":
+			# Parse it just like a query string.
+			body = parse_qs(body)
+		elif content_type == "application/json":
+			# Parse it as JSON.
+			body = json.loads(body)
+		else:
+			body = unparsed_body
+
+		self.handle_quik_request(self.path, "POST", body=body)
 	
 	def do_HEAD(self):
 		"""
@@ -223,11 +244,15 @@ class QuikResponse():
 		self.delete_cookies = delete_cookies
 
 if __name__ == "__main__":
-	# This is just a test server.
+	"""
+	Runs a test server if this file is run directly.
+	"""
+
+	print("Running test server. Press Ctrl+C to stop.")
 	server = QuikServer(8080)
 
-	def handler():
+	def test():
 		return QuikResponse("Hello, world!", 200)
-	server.add_handler("/", handler)
+	server.add_handler("/", test)
 
 	server.start()
