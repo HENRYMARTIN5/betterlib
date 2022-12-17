@@ -101,6 +101,12 @@ class QuikHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		self.wfile.write(bytes(string, encoding))
 
+	def send_error_response(self, code):
+		if not code in error_handlers:
+			self.send_from_string(str(code) + " - Betterlib Quik " + QUIKVERSION + "<br><img width='800px' height='700px' src='https://httpcats.com/" + str(code) + ".jpg'/>", code=405)
+		else:
+			self.send_from_quikresponse(error_handlers[code]())	
+
 	def handle_quik_request(self, path, method, body=None):
 		global error_handlers
 
@@ -114,13 +120,8 @@ class QuikHandler(BaseHTTPRequestHandler):
 		try:
 			if path in handlers:
 				if method not in allowed_methods[path]:
-					if not 405 in error_handlers:
-						self.send_from_string("405 Method Not Allowed. You really couldn't help pentesting this site, could you?<br>Betterlib Quik " + QUIKVERSION, code=405)
-						return 405
-					else:
-						response = error_handlers[405]()
-						self.send_from_quikresponse(response)
-						return 405
+					self.send_error_response(405)
+					return 405
 
 				if body is None:
 					response = handlers[path](body=None) # The tiny little bit of logic that actually sends a valid request.
@@ -130,22 +131,13 @@ class QuikHandler(BaseHTTPRequestHandler):
 				return 200
 
 			else:
-				if not 404 in error_handlers:
-					self.send_from_string("404 not found. Use a real URL next time.<br>Betterlib Quik " + QUIKVERSION, code=405)
-					return 404
-				else:
-					response = error_handlers[404]()
-					self.send_from_quikresponse(response)
-					return 404
+				self.send_error_response(404)
+				return 404
+
 		except Exception as e:
 			print(e)
-			if not 500 in error_handlers:
-				self.send_from_string("500 internal server error. Nice job, you broke something!<br>Betterlib Quik " + QUIKVERSION, code=405)
-				return 500
-			else:
-				response = error_handlers[500]()
-				self.send_from_quikresponse(response)
-				return 500
+			self.send_error_response(500)
+			return 500
 
 	# The following functions are super redundant, but I'm not sure how to make them more efficient.
 	def do_GET(self):
