@@ -23,9 +23,8 @@ def getPubIp():
 	"""
 	
 	try:
-		url = "http://ip-api.com/json"
-		response = requests.get(url)
-		return response.json()['query']
+		response = _returnIpApiResult(ip)
+		return response['query']
 	except:
 		return None
 
@@ -67,9 +66,8 @@ def isBehindProxy():
 	"""
 
 	try:
-		url = "http://ip-api.com/json"
-		response = requests.get(url)
-		return response.json()['proxy']
+		response = _returnIpApiResult(ip)
+		return response['proxy']
 	except:
 		return None
 
@@ -79,9 +77,8 @@ def isTor(ip):
 	"""
 
 	try:
-		url = "http://ip-api.com/json/%s" % ip
-		response = requests.get(url)
-		return response.json()['tor']
+		response = _returnIpApiResult(ip)
+		return response['tor']
 	except:
 		return None
 
@@ -91,9 +88,8 @@ def isVpn(ip):
 	"""
 
 	try:
-		url = "http://ip-api.com/json/%s" % ip
-		response = requests.get(url)
-		return response.json()['vpn']
+		response = _returnIpApiResult(ip)
+		return response['vpn']
 	except:
 		return None
 
@@ -105,11 +101,20 @@ def getLatLong(ip=None):
 	if ip is None:
 		ip = getPubIp()
 	try:
-		url = "http://ip-api.com/json/%s" % ip
-		response = requests.get(url)
-		return response.json()['lat'], response.json()['lon']
+		response = _returnIpApiResult(ip)
+		return response['lat'], response['lon']
 	except:
 		return None
+	
+def _returnIpApiResult(ip):
+	"""
+	An internally used function to fetch data from ip-api.com
+	"""
+	
+	url = "http://ip-api.com/json/%s" % ip
+	response = requests.get(url)
+	return response.json()
+
 
 if __name__ == '__main__':
     print("This module is not meant to be run directly.")
