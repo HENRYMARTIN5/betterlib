@@ -87,20 +87,20 @@ class Logger():
 			levelindex = self.config.get("validlevels").index(level)
 			consolelevelindex = self.config.get("validlevels").index(self.config.get("consolelevel"))
 			logfilelevelindex = self.config.get("validlevels").index(self.config.get("logfilelevel"))
+			fileoutput = self.config.get("infileformat").replace("%(name)s", self.config.get("name")).replace("%(level)s", level.upper()).replace("%(asctime)s", str(datetime.datetime.now())).replace("%(message)s", message) + "\n"
+			consoleoutput = self.config.get("consoleformat").replace("%(name)s", self.config.get("name")).replace("%(level)s", level.upper()).replace("%(message)s", message)
 			if levelindex >= consolelevelindex:
 				if self.config.get("usecolorama"):
 					print(
-						self.colorkey.get(self.config.get("colors")[levelindex]) +
-						self.config.get("consoleformat").replace("%(name)s", self.config.get("name")).replace("%(level)s", level.upper()).replace("%(message)s", message)
-						+ Style.RESET_ALL
+						self.colorkey.get(self.config.get("colors")[levelindex]) + consoltoutput + Style.RESET_ALL
 					)
 				else:
 					print (
-						self.config.get("consoleformat").replace("%(name)s", self.config.get("name")).replace("%(level)s", level.upper()).replace("%(message)s", message)
+						consoleoutput
 					)
 			if levelindex >= logfilelevelindex:
 				self.file.write(
-					self.config.get("infileformat").replace("%(name)s", self.config.get("name")).replace("%(level)s", level.upper()).replace("%(asctime)s", str(datetime.datetime.now())).replace("%(message)s", message) + "\n"
+					fileoutput
 				)
 			
 			self.reloadfile()
