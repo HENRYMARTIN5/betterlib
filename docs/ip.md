@@ -2,6 +2,8 @@
 
 This module contains various utilities for working with IP and MAC addresses.
 
+**Warning:** This module is curreltly undergoing a rewrite and is not yet complete.
+
 ## Functions
 
 ### `getIp()`
