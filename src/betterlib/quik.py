@@ -30,8 +30,6 @@ class QuikServer():
 		self.host = host
 		log = logger
 
-
-	
 	def add_handler(self, path, handler, methods=["GET"]):
 		"""
 		Adds a handler to the server. Parameters:
