@@ -10,6 +10,7 @@ QUIKVERSION = "0.2a"
 handlers = {}
 allowed_methods = {}
 error_handlers = {}
+log = None
 
 class QuikServer():
 	"""
@@ -23,9 +24,12 @@ class QuikServer():
 		port: The port to listen on.
 		host: The host to listen on. Defaults to "127.0.0.1" aka localhost.
 		"""
+		global log
 
 		self.port = port
 		self.host = host
+		log = logger
+
 
 	
 	def add_handler(self, path, handler, methods=["GET"]):
@@ -57,10 +61,14 @@ class QuikServer():
 		"""
 		Starts the server.
 		"""
+		global log
 
 		with HTTPServer((self.host, self.port), QuikHandler) as httpd:
 
-			print("Quik is up and running on http://%s:%s" % (self.host, self.port))
+			if log is not None:
+				log.info("Quik is up and running on http://%s:%s" % (self.host, self.port))
+			else:
+				print("Quik is up and running on http://%s:%s" % (self.host, self.port))
 			try:
 				httpd.serve_forever()
 			except KeyboardInterrupt:
@@ -85,7 +93,7 @@ class QuikHandler(BaseHTTPRequestHandler):
 		for cookie, value in response.cookies:
 			self.send_header("Set-Cookie", cookie + "=" + value) # Header format is cookie=value
 		for cookie in response.delete_cookies:
-			self.send_header("Set-Cookie", cookie + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT") # Hacky way to delete, but hey, it works.
+			self.send_header("Set-Cookie", cookie + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT") # HACK: Weird way to delete cookies, but it works.
 		self.end_headers()
 		self.wfile.write(bytes(response.content, response.encoding))
 
@@ -116,6 +124,7 @@ class QuikHandler(BaseHTTPRequestHandler):
 		path: The path to handle.
 		method: The method to handle.
 		"""
+		global log
 
 		try:
 			if path in handlers:
@@ -135,7 +144,10 @@ class QuikHandler(BaseHTTPRequestHandler):
 				return 404
 
 		except Exception as e:
-			print(e)
+			if log is not None:
+				log.error("Error while handling request: " + str(e))
+			else:
+				print("Error while handling request: " + str(e))
 			self.send_error_response(500)
 			return 500
 
