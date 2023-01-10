@@ -12,6 +12,7 @@ The constructor for the QuikServer class takes the following arguments:
 
 - `host` - The host to bind to. Defaults to `localhost`.
 - `port` - The port to bind to. Defaults to `80`.
+- `logger` - A `logging.Logger` object to use for logging. Defaults to `None`, causing subsequent logging to be piped to a standard `print` instead.
 
 ### Methods
 
@@ -43,6 +44,16 @@ server.add_handler("/", handler, methods=["GET"]) # Once again, assuming server 
 ```
 
 This will only be called if the request method is `GET`. If the request method is not `GET`, the handler will not be called and the server will return a 405 error.
+
+In order to recieve a request body, the handler must take a parameter called `body`. If one is not specified and the request method is `POST`, the server will return a 500 error.
+
+Example:
+
+```py
+def handler(body=None):
+    return QuikResponse(body, 200)
+server.add_handler("/", handler, methods=["POST"])
+```
 
 ## QuikResponse
 

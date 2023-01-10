@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for BetterLib
-title: "[FEATURE]"
+title: "[FEATURE] "
 labels: enhancement
 assignees: HENRYMARTIN5
 

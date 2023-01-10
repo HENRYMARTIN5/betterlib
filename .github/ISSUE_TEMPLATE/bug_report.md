@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help fix a bug in BetterLib
-title: "[BUG]"
+title: "[BUG] "
 labels: bug
 assignees: HENRYMARTIN5
 
