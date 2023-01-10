@@ -15,3 +15,7 @@ class ipAddress():
 
 		for k, v in response.json():
 			setattr(self, k, v)
+
+if __name__ == '__main__':
+    print("This module is not meant to be run directly.")
+    exit(1)

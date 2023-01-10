@@ -15,7 +15,7 @@ BetterLib has a strict code style. It is based on [PEP 8](https://www.python.org
 - Also, on the topic of imports, make sure to condense them into one line if possible (if the imports become insanely long, exceptions can be made).
 - Whenever adding functions or classes, also make sure to add them to the respective documentation file in the `docs` folder.
 - When adding new modules, make sure to add them to the `__init__.py` file in the `betterlib` folder and the `docs/modules.md` file.
-- Use markdownlint. If your markdown isn't compliant with the rules (except `no-duplicate-header`), I will not accept your PR until you fix it.
+- Use markdownlint. If your markdown isn't compliant with the rules (except `no-duplicate-header`), I will not accept your PR until you fix it. (Quite frankly, it's not that hard to follow the rules.)
 
 ## Pull Requests
 
@@ -40,4 +40,4 @@ BetterLib is licensed under the Unlicense. This means that you can use it in any
 
 ## Credits
 
-BetterLib was created and maintained by [Henry Martin](http://henrymartin.co/).
+BetterLib was created and is maintained by [Henry Martin](http://henrymartin.co/).

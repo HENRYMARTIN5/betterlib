@@ -10,6 +10,7 @@ QUIKVERSION = "0.2a"
 handlers = {}
 allowed_methods = {}
 error_handlers = {}
+log = None
 
 class QuikServer():
 	"""
@@ -23,11 +24,12 @@ class QuikServer():
 		port: The port to listen on.
 		host: The host to listen on. Defaults to "127.0.0.1" aka localhost.
 		"""
+		global log
 
 		self.port = port
 		self.host = host
+		log = logger
 
-	
 	def add_handler(self, path, handler, methods=["GET"]):
 		"""
 		Adds a handler to the server. Parameters:
@@ -57,10 +59,14 @@ class QuikServer():
 		"""
 		Starts the server.
 		"""
+		global log
 
 		with HTTPServer((self.host, self.port), QuikHandler) as httpd:
 
-			print("Quik is up and running on http://%s:%s" % (self.host, self.port))
+			if log is not None:
+				log.info("Quik is up and running on http://%s:%s" % (self.host, self.port))
+			else:
+				print("Quik is up and running on http://%s:%s" % (self.host, self.port))
 			try:
 				httpd.serve_forever()
 			except KeyboardInterrupt:
@@ -85,7 +91,7 @@ class QuikHandler(BaseHTTPRequestHandler):
 		for cookie, value in response.cookies:
 			self.send_header("Set-Cookie", cookie + "=" + value) # Header format is cookie=value
 		for cookie in response.delete_cookies:
-			self.send_header("Set-Cookie", cookie + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT") # Hacky way to delete, but hey, it works.
+			self.send_header("Set-Cookie", cookie + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT") # HACK: Weird way to delete cookies, but it works.
 		self.end_headers()
 		self.wfile.write(bytes(response.content, response.encoding))
 
@@ -101,6 +107,12 @@ class QuikHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		self.wfile.write(bytes(string, encoding))
 
+	def send_error_response(self, code):
+		if not code in error_handlers:
+			self.send_from_string(str(code) + " - Betterlib Quik " + QUIKVERSION + "<br><img width='800px' height='700px' src='https://httpcats.com/" + str(code) + ".jpg'/>", code=405)
+		else:
+			self.send_from_quikresponse(error_handlers[code]())	
+
 	def handle_quik_request(self, path, method, body=None):
 		global error_handlers
 
@@ -110,35 +122,32 @@ class QuikHandler(BaseHTTPRequestHandler):
 		path: The path to handle.
 		method: The method to handle.
 		"""
+		global log
 
 		try:
 			if path in handlers:
 				if method not in allowed_methods[path]:
-					if not 405 in error_handlers:
-						self.send_from_string("405 Method Not Allowed. You really couldn't help pentesting this site, could you?<br>Betterlib Quik " + QUIKVERSION, code=405)
-					else:
-						response = error_handlers[405]()
-						self.send_from_quikresponse(response)
+					self.send_error_response(405)
+					return 405
 
 				if body is None:
-					response = handlers[path]() # The tiny little bit of logic that actually sends a valid request.
+					response = handlers[path](body=None) # The tiny little bit of logic that actually sends a valid request.
 				else:
-					response = handlers[path](body)
+					response = handlers[path](body=body)
 				self.send_from_quikresponse(response)
+				return 200
 
 			else:
-				if not 404 in error_handlers:
-					self.send_from_string("404 not found. Use a real URL next time.<br>Betterlib Quik " + QUIKVERSION, code=405)
-				else:
-					response = error_handlers[404]()
-					self.send_from_quikresponse(response)
+				self.send_error_response(404)
+				return 404
+
 		except Exception as e:
-			print(e)
-			if not 500 in error_handlers:
-				self.send_from_string("500 internal server error. Nice job, you broke something!<br>Betterlib Quik " + QUIKVERSION, code=405)
+			if log is not None:
+				log.error("Error while handling request: " + str(e))
 			else:
-				response = error_handlers[500]()
-				self.send_from_quikresponse(response)
+				print("Error while handling request: " + str(e))
+			self.send_error_response(500)
+			return 500
 
 	# The following functions are super redundant, but I'm not sure how to make them more efficient.
 	def do_GET(self):
@@ -251,7 +260,7 @@ if __name__ == "__main__":
 	print("Running test server. Press Ctrl+C to stop.")
 	server = QuikServer(8080)
 
-	def test():
+	def test(body=None):
 		return QuikResponse("Hello, world!", 200)
 	server.add_handler("/", test)
 
