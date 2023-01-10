@@ -1,5 +1,5 @@
 """
-A collection of utilities for getting information about the current system's private and public IP address, hostname, MAC address, approximate location, and more.
+A collection of utilities for getting information about the current system's private and public IP address, hostname, approximate location, and more.
 """
 import socket, re, uuid, requests
 
