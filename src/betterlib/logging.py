@@ -92,7 +92,7 @@ class Logger():
 			if levelindex >= consolelevelindex:
 				if self.config.get("usecolorama"):
 					print(
-						self.colorkey.get(self.config.get("colors")[levelindex]) + consoltoutput + Style.RESET_ALL
+						self.colorkey.get(self.config.get("colors")[levelindex]) + consoleoutput + Style.RESET_ALL
 					)
 				else:
 					print (
