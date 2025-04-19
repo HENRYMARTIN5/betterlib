@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "betterlib"
 version = "0.2.0"
 authors = [
-  { name="Henry Martin", email="n3rdl0rd@proton.me" },
+  { name="Henry Martin", email="henrymartin.co@outlook.com" },
 ]
 description = "A useful collection of various tools and libraries for anyone to use in their projects."
 readme = "README.md"
